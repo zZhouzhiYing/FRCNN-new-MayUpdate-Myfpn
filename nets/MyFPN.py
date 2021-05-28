@@ -72,7 +72,11 @@ class FPN(nn.Module):
         self.latlayer3 = nn.Conv2d( 256, 256, kernel_size=1, stride=1, padding=0)
 
         self.avp=nn.AvgPool2d(14)
-        self.conva=nn.Conv2d(256, 1024, kernel_size=3, stride=1, padding=1)
+        self.conva1=nn.Conv2d(256, 512, kernel_size=3, stride=1, padding=1)
+        self.conva2=nn.Conv2d(512, 1024, kernel_size=3, stride=1, padding=1)
+
+        # self.fc1 = nn.Linear(256, 10)
+        # self.fc2 = nn.Linear(256, 10)
         self.convqq=nn.Conv2d(256,64,kernel_size=1,stride=1,padding=0,bias=False)
 
     def _make_layer(self, block, planes, num_blocks, stride):
@@ -292,7 +296,7 @@ def Fpn50():
     
     features = list([net1])
     # 获取分类部分
-    classifier = list([net1.conva,net1.avp])
+    classifier = list([net1.conva1,net1.conva2,net1.avp])
     features = nn.Sequential(*features)
     classifier = nn.Sequential(*classifier)
     return features,classifier
