@@ -203,7 +203,9 @@ if __name__ == "__main__":
         Init_Epoch = 0
         Freeze_Epoch = 50
         
-        optimizer = optim.Adam(filter(lambda p: p.requires_grad, net.parameters()), lr, weight_decay=5e-4)
+        # optimizer = optim.Adam(filter(lambda p: p.requires_grad, net.parameters()), lr, weight_decay=5e-4)
+        optimizer = optim.Adam(net.parameters(), lr, weight_decay=5e-4)
+
         lr_scheduler = optim.lr_scheduler.StepLR(optimizer,step_size=1,gamma=0.95)
 
         train_dataset = FRCNNDataset(lines[:num_train], (input_shape[0], input_shape[1]), is_train=True)
